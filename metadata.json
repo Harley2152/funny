@@ -1,0 +1,7 @@
+{
+  "name": "HeroVerse - Kids Superhero & Multiverse Network",
+  "description": "Interactive kid-safe superhero network featuring Marvel & anime dimensions, anti-gravity floating zero-g physics, holographic hero spotlight, animated shows, playable arcade quests, and sound-action comics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

@@ -1,0 +1,208 @@
+@import "tailwindcss";
+
+@theme {
+  --color-surface: #0e131e;
+  --color-surface-container-lowest: #090e19;
+  --color-surface-container-low: #171b27;
+  --color-surface-container: #1b1f2b;
+  --color-surface-container-high: #252a36;
+  --color-surface-container-highest: #303541;
+  --color-surface-bright: #343946;
+  --color-surface-dim: #0e131e;
+  --color-surface-variant: #303541;
+  --color-background: #0e131e;
+  --color-on-background: #dee2f2;
+  --color-on-surface: #dee2f2;
+  --color-on-surface-variant: #bac9cc;
+
+  --color-primary: #c3f5ff;
+  --color-primary-container: #00e5ff;
+  --color-on-primary: #00363d;
+  --color-on-primary-container: #00626e;
+  --color-primary-fixed: #9cf0ff;
+  --color-primary-fixed-dim: #00daf3;
+  --color-surface-tint: #00daf3;
+
+  --color-secondary: #ffb3b3;
+  --color-secondary-container: #ff525f;
+  --color-on-secondary: #680014;
+  --color-secondary-fixed: #ffdad9;
+  --color-secondary-fixed-dim: #ffb3b3;
+
+  --color-tertiary: #ffecac;
+  --color-tertiary-container: #f5cd00;
+  --color-on-tertiary: #3a3000;
+  --color-tertiary-fixed: #ffe170;
+  --color-tertiary-fixed-dim: #e9c400;
+
+  --font-display-hero: "Anybody", sans-serif;
+  --font-headline-lg: "Anybody", sans-serif;
+  --font-headline-md: "Anybody", sans-serif;
+  --font-headline-sm: "Anybody", sans-serif;
+  --font-body-lg: "Rubik", sans-serif;
+  --font-body-md: "Rubik", sans-serif;
+  --font-body-sm: "Rubik", sans-serif;
+  --font-label-lg: "Rubik", sans-serif;
+  --font-label-md: "Rubik", sans-serif;
+  --font-label-sm: "Rubik", sans-serif;
+}
+
+@layer base {
+  html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #0e131e;
+    color: #dee2f2;
+    font-family: 'Rubik', sans-serif;
+  }
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #090e19;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #252a36;
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #00e5ff;
+  }
+}
+
+/* Zero-Gravity Floating Motion Effects */
+@keyframes zero-g-drift-1 {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-8px) rotate(0.6deg);
+  }
+  66% {
+    transform: translateY(4px) rotate(-0.5deg);
+  }
+}
+
+@keyframes zero-g-drift-2 {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  40% {
+    transform: translateY(-11px) rotate(-0.8deg);
+  }
+  75% {
+    transform: translateY(6px) rotate(0.4deg);
+  }
+}
+
+@keyframes zero-g-drift-3 {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-7px) rotate(0.7deg);
+  }
+}
+
+@keyframes float-hero-art {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-14px) scale(1.015);
+  }
+}
+
+@keyframes reticle-spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes reticle-spin-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes pulse-cyan {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.65;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes comic-pop {
+  0% {
+    transform: scale(0.6) rotate(-15deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2) rotate(4deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(-4deg);
+    opacity: 1;
+  }
+}
+
+.animate-zero-g-1 {
+  animation: zero-g-drift-1 6.5s ease-in-out infinite;
+}
+
+.animate-zero-g-2 {
+  animation: zero-g-drift-2 8s ease-in-out infinite 0.8s;
+}
+
+.animate-zero-g-3 {
+  animation: zero-g-drift-3 7.2s ease-in-out infinite 1.5s;
+}
+
+.animate-float-hero {
+  animation: float-hero-art 5.5s ease-in-out infinite;
+}
+
+.animate-reticle-slow {
+  animation: reticle-spin-slow 24s linear infinite;
+}
+
+.animate-reticle-reverse {
+  animation: reticle-spin-reverse 18s linear infinite;
+}
+
+.animate-pulse-cyan {
+  animation: pulse-cyan 4s ease-in-out infinite;
+}
+
+.comic-bubble-pop {
+  animation: comic-pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Material Symbols formatting */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}

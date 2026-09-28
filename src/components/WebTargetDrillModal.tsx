@@ -29,7 +29,7 @@ export const WebTargetDrillModal: React.FC<WebTargetDrillModalProps> = ({
   const [gameOver, setGameOver] = useState(false);
   const [webSplatters, setWebSplatters] = useState<Array<{ id: number; x: number; y: number }>>([]);
 
-  // Initialize targets
+  // Initialize targets and reset state when opened
   useEffect(() => {
     if (!isOpen) return;
 
@@ -49,22 +49,30 @@ export const WebTargetDrillModal: React.FC<WebTargetDrillModalProps> = ({
       type: (['drone', 'pumpkin-bomb', 'symbiote'][i % 3]) as 'drone' | 'pumpkin-bomb' | 'symbiote',
     }));
     setTargets(initialTargets);
+  }, [isOpen]);
 
-    // Countdown timer
+  // Countdown timer effect
+  useEffect(() => {
+    if (!isOpen || gameOver) return;
+
+    if (timeLeft <= 0) {
+      setGameOver(true);
+      soundManager.playSfx('success');
+      onDrillCompleted(100);
+      return;
+    }
+
     const timerInterval = setInterval(() => {
-      setTimeLeft(t => {
-        if (t <= 1) {
-          clearInterval(timerInterval);
-          setGameOver(true);
-          soundManager.playSfx('success');
-          onDrillCompleted(100);
-          return 0;
-        }
-        return t - 1;
-      });
+      setTimeLeft(t => Math.max(0, t - 1));
     }, 1000);
 
-    // Target movement loop
+    return () => clearInterval(timerInterval);
+  }, [isOpen, timeLeft, gameOver, onDrillCompleted]);
+
+  // Target movement loop
+  useEffect(() => {
+    if (!isOpen || gameOver) return;
+
     const moveInterval = setInterval(() => {
       setTargets(prev =>
         prev.map(tgt => {
@@ -88,11 +96,8 @@ export const WebTargetDrillModal: React.FC<WebTargetDrillModalProps> = ({
       );
     }, 50);
 
-    return () => {
-      clearInterval(timerInterval);
-      clearInterval(moveInterval);
-    };
-  }, [isOpen]);
+    return () => clearInterval(moveInterval);
+  }, [isOpen, gameOver]);
 
   if (!isOpen) return null;
 
@@ -107,23 +112,21 @@ export const WebTargetDrillModal: React.FC<WebTargetDrillModalProps> = ({
       setWebSplatters(prev => [...prev, { id: Date.now(), x: clickX, y: clickY }]);
     }
 
+    const target = targets.find(t => t.id === targetId);
+    if (!target || target.hit) return;
+
     setTargets(prev =>
-      prev.map(t => {
-        if (t.id === targetId && !t.hit) {
-          setScore(s => {
-            const nextScore = s + 1;
-            if (nextScore >= 10) {
-              setGameOver(true);
-              soundManager.playSfx('success');
-              onDrillCompleted(100);
-            }
-            return nextScore;
-          });
-          return { ...t, hit: true };
-        }
-        return t;
-      })
+      prev.map(t => (t.id === targetId ? { ...t, hit: true } : t))
     );
+
+    const nextScore = score + 1;
+    setScore(nextScore);
+
+    if (nextScore >= 10 && !gameOver) {
+      setGameOver(true);
+      soundManager.playSfx('success');
+      onDrillCompleted(100);
+    }
 
     // Respawn target after delay
     setTimeout(() => {

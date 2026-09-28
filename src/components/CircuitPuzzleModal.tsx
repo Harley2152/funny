@@ -39,25 +39,21 @@ export const CircuitPuzzleModal: React.FC<CircuitPuzzleModalProps> = ({
   const handleTileClick = (index: number) => {
     if (isSolved) return;
     soundManager.playSfx('zap');
-    setMoves(m => m + 1);
+    const newMoves = moves + 1;
+    setMoves(newMoves);
 
-    setTiles(prev => {
-      const next = [...prev];
-      next[index] = {
-        ...next[index],
-        rotation: (next[index].rotation + 90) % 360,
-      };
+    const nextTiles = tiles.map((tile, i) =>
+      i === index ? { ...tile, rotation: (tile.rotation + 90) % 360 } : tile
+    );
+    setTiles(nextTiles);
 
-      // Check if all are at targetRotation
-      const allAligned = next.every(t => t.rotation % 180 === t.targetRotation % 180);
-      if (allAligned || moves >= 4) {
-        setIsSolved(true);
-        soundManager.playSfx('success');
-        onPuzzleSolved(75);
-      }
-
-      return next;
-    });
+    // Check if all are at targetRotation
+    const allAligned = nextTiles.every(t => t.rotation % 180 === t.targetRotation % 180);
+    if ((allAligned || newMoves >= 4) && !isSolved) {
+      setIsSolved(true);
+      soundManager.playSfx('success');
+      onPuzzleSolved(75);
+    }
   };
 
   const handleReset = () => {

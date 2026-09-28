@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { HEROES_DATA, SHOWS_DATA } from './data/mockData.ts';
 import { ShowEpisode } from './types/index.ts';
 import { AntiGravityCanvas } from './components/AntiGravityCanvas.tsx';
@@ -34,17 +34,17 @@ export default function App() {
   // Floating notification toast for sound effects & micro-interactions
   const [toastNotification, setToastNotification] = useState<string | null>(null);
 
-  const triggerNotification = (text: string) => {
+  const triggerNotification = useCallback((text: string) => {
     setToastNotification(text);
     setTimeout(() => {
       setToastNotification(prev => (prev === text ? null : prev));
     }, 1800);
-  };
+  }, []);
 
-  const handleGainXp = (amount: number) => {
+  const handleGainXp = useCallback((amount: number) => {
     setXp(x => x + amount);
     triggerNotification(`Level 8 Progress: +${amount} XP Earned! ⚡`);
-  };
+  }, [triggerNotification]);
 
   const handleOpenShow = (show: ShowEpisode) => {
     setCurrentShow(show);
